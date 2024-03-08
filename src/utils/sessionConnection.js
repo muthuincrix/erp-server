@@ -13,12 +13,13 @@ exports.sessionManagement = async (app, config) => {
   app.use(
     session({
       secret: config.secret,
-      resave: false,
+      resave: true,
       secure: true,
       httpOnly: true,
       saveUninitialized: false,
       cookie: {
-        expires: 604800000,
+        // sameSite:'none',
+        expires: 2629746000,
       },
       store: store,
     })

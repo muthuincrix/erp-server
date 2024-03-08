@@ -4,25 +4,41 @@ const schema = mongoose.Schema(
   {
     name: {
       type: String,
+      
     },
     email: {
       type: String,
     },
-    password: {
-      type: String,
+    phone: {
+      type: Number,
     },
     OTP: {
       code: {
         type: String,
-        require: true,
-        max: 6,
-        min: 6,
+         required: true,
+        max: 5,
+        min: 5,
       },
       createdAt: {
         type: Date,
         default: Date.now,
       },
     },
+    avatar: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
+    orgList: [
+      {
+        orgID: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "Org",
+         // required: true,
+        },
+      },
+    ],
   },
   { timestamps: true, versionKey: false }
 );

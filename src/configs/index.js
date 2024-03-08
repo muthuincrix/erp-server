@@ -20,6 +20,7 @@ module.exports = {
     port: process.env.EMAIL_PORT,
     user: process.env.USER,
     pass: process.env.PASSWORD,
+    
   },
   production: {
     log: loggers.production,

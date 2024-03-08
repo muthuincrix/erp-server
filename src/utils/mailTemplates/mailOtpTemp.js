@@ -121,7 +121,9 @@ module.exports = textHtml = (OTP) => {
                 <p style=" font-size: 24px; display: inline-block; border: 2px solid #187163; width: 50px ;  border-radius: 5px; height: 50px; margin-left: 5px; margin-right: 5px; text-align: center;  line-height: 50px; ">
                 ${OTP[3]}
                 </p>
-    
+                <p style=" font-size: 24px; display: inline-block; border: 2px solid #187163; width: 50px ;  border-radius: 5px; height: 50px; margin-left: 5px; margin-right: 5px; text-align: center;  line-height: 50px; ">
+                ${OTP[4]}
+                </p>
         
             <p style="margin-top: 20px;margin-bottom: 10px;">Please use this OTP to complete your verification process.</p>
           </center>
