@@ -13,6 +13,7 @@ module.exports = {
   development: {
     log: loggers.development,
     databaseURL: process.env.MONGODB_DEV_URL,
+    poolSize:process.env.DB_POOL_SIZE,
     secret: process.env.SECRET,
     User,
     host: process.env.HOST,
@@ -25,6 +26,7 @@ module.exports = {
   production: {
     log: loggers.production,
     databaseURL: process.env.MONGO_URL_PRODUCTION,
+    poolSize:process.env.DB_POOL_SIZE,
     secret: process.env.SECRET,
     User,
     host: process.env.HOST,

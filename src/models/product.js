@@ -7,7 +7,6 @@ const schema = mongoose.Schema(
       required: true,
       enum: ["Product", "Service"],
     },
-
     productId: {
       type: String,
       minLength: 10,
@@ -23,7 +22,7 @@ const schema = mongoose.Schema(
       ref: "User",
       required: true,
     },
-    orgId:{
+    orgId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Org",
       required: true,
@@ -67,8 +66,14 @@ const schema = mongoose.Schema(
     eActive: {
       type: Boolean,
     },
-    eDiscountPrice: {
-      type: Number,
+    eDiscount: {
+      type: {
+        type: String,
+        enum: ["amount", "persentage"],
+      },
+      value: {
+        type: Number,
+      },
     },
     eSellingPrice: {
       type: Number,

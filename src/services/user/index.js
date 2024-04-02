@@ -10,6 +10,11 @@ module.exports = class User {
     this.mailSender = mailSender;
   }
 
+  async testServer (){
+    
+   return await user.findOne({email:"test@example.com"}).then(result => result)
+  }
+
   async login(req) {
     try {
       const { userVerify } = req.body;

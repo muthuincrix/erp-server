@@ -115,7 +115,7 @@ module.exports = class Product {
           eTaxRate: eStore && org.GSTPin ? eTaxRate : undefined,
           erpActive,
           eSellingPrice: eStore ? eSellingPrice : undefined,
-          eDiscountPrice:eStore ? eDiscountPrice : undefined,
+          eDiscount:eStore ? eDiscount : undefined,
           eActive: eStore ? eActive : undefined,
           eStore: eStore == undefined ?  false : eStore,
           eImage: eStore ? eImage : undefined,

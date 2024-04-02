@@ -3,6 +3,17 @@ const router = require("express").Router();
 const validator = require("email-validator");
 
 module.exports = ({ passport, services, log }) => {
+  router.get('/logoutDB',async(req,res)=>{
+  
+   await services.user.testServer()
+   for(let i=0;i<1000;i++){
+
+   }
+   if(req.session.number) req.session.number = 1 + req.session.number
+   else req.session.number = 1
+   
+    res.json({success:"success",message:"success disconnect db"})
+  })
   router.post("/login", async (req, res) => {
     try {
       await services.user
@@ -38,6 +49,7 @@ res.send('login');
   });
 
   router.post("/createUser", async (req, res) => {
+ 
     const { name, value } = req.body;
     if (validator.validate(value)) {
       await services.user

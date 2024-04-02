@@ -18,10 +18,13 @@ const methodOverride = require("method-override");
 const Product = require("./services/product/index.js");
 const Customer = require("./services/customer/index.js");
 const Vendor = require("./services/vendor/index.js");
+const argv = require('minimist')(process.argv.slice(2));
+
 module.exports = (config) => {
+  console.log(argv.url);;
 
+ const getConnection = connectDB({url:config.databaseURL,poolSize:config.poolSize});
 
-  connectDB(config.databaseURL);
   const app = express();
   const log = config.log()
 
@@ -70,16 +73,18 @@ module.exports = (config) => {
     mailSender,
     product,
     customer,
-    vendor
+    vendor,
+    getConnection
   };
 
 
   // router
   app.get('/expire', (req,res) => {
+   
     res.send('expire')
   })
-  // app.use("/",sessionExpire,router({ services, passport,log }));
-  app.use("/",router({ services, passport,log }));
+   app.use("/",sessionExpire,router({ services, passport,log }));
+  //app.use("/",router({ services, passport,log }));
   return app;
 };
 
