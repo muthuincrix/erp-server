@@ -6,6 +6,7 @@ var bin = ('JVBERi0xLjcNCiW1tbW1DQoxIDAgb2JqDQo8PC9UeXBlL0NhdGFsb2cvUGFnZXMgMiAw
 module.exports = class MailSender {
   constructor({ host, name, port, user, pass }) {
     this.user = user;
+    
     this.transporter = nodemailer.createTransport({
       host: host,
       name: name,
