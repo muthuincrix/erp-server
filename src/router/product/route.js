@@ -46,6 +46,19 @@ module.exports = ({ passport, services, log }) => {
     }
   });
 
+  router.post('/create-category-child',async (req,res)=>{
+try {
+  const { parentId, imageUrl, catName } = req.body;
+  await services.product
+   .createCategoryChild({ req, catName, parentId, imageUrl })
+   .then((response) => {
+      return res.json(response);
+    });  
+} catch (error) {
+  throw error;
+}
+  })
+
   router.get('/get-all-products',(req,res) =>{
     try {
       services.product

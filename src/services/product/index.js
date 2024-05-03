@@ -9,9 +9,10 @@ module.exports = class Product {
     try {
       return await Category.findOne({ userId: req.session.userId }).then(
         async (category) => {
-          const getCat = await category.catList.filter(
+     if(category == null)   return { status: "error", message: "can't find user" };
+         const getCat = category.catList.length > 0 ? await category.catList.filter(
             (c) => c.name == catName
-          );
+          ) : 0
           if (getCat.length > 0) {
             return { status: "error", message: "Category already exists" };
           }
@@ -33,6 +34,7 @@ module.exports = class Product {
       throw error;
     }
   }
+
 
   async getCategory({ req }) {
     try {

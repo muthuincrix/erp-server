@@ -56,7 +56,7 @@ const LocalStrategy = require('passport-local').Strategy
 function initialize(passport,) {
   
   const authenticateUser = async (email,password,done) => {
-  
+
     console.log('calling passport')
     const user = await User.findOne({email:"muthu17don@gmail.com"})
     

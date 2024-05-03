@@ -10,10 +10,7 @@ module.exports = class User {
     this.mailSender = mailSender;
   }
 
-  async testServer (){
-    
-   return await user.findOne({email:"test@example.com"}).then(result => result)
-  }
+
 
   async login(req) {
     try {
@@ -88,8 +85,9 @@ module.exports = class User {
     });
   }
   async checkOTP({ otp, req }) {
+    
     if (!req.session.numOfattempts) req.session.numOfattempts = 1;
-    if (req.session.otp === otp && req.session.numOfattempts > 2) {
+    if (req.session.otp === otp && req.session.numOfattempts < process.env.OTP_ATTEMPT_LIMIT) {
       return { status: "success", message: "OTP verified successfully" };
     } else if (req.session.numOfattempts > process.env.OTP_ATTEMPT_LIMIT) {
       return { status: "info", message: "your OTP is Expired" };
@@ -130,6 +128,7 @@ module.exports = class User {
   async getBusinessSave({ req, orgLogo, avatar, gender }) {
     const business = await user.findOne({ email: req.session.email });
     if (business) {
+      req.session.userId = business._id;
       const organization = await Org.findOne({
         userId: business._id,
         name: req.session.organizationName,

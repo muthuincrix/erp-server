@@ -176,7 +176,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/VisionERP/dev/1707569061144-2024-02-10T12:44:21.144Z/VisionERP.zip"
+                "S3Key": "serverless/VisionERP/dev/1713962508165-2024-04-24T12:41:48.165Z/VisionERP.zip"
               },
               "Handler": "handler.app",
               "Runtime": "nodejs18.x",
@@ -208,14 +208,14 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersionqessQwjYNIy4SUsYU102op4mwsN91pMflyaulQKR5G8": {
+          "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "KKWB7v0cE8V0sT/ChxA9ja3wR5yjvaBpziq3hf65/Zw="
+              "CodeSha256": "Bw1BzWgIVYK0yaTuq9lElLb3v5NClrsbocl8m4pqTLA="
             }
           },
           "HttpApi": {
@@ -344,7 +344,7 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersionqessQwjYNIy4SUsYU102op4mwsN91pMflyaulQKR5G8"
+              "Ref": "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0"
             },
             "Export": {
               "Name": "sls-VisionERP-dev-AppLambdaFunctionQualifiedArn"
@@ -504,7 +504,7 @@
         "timeout": 10,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersionqessQwjYNIy4SUsYU102op4mwsN91pMflyaulQKR5G8"
+        "versionLogicalId": "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0"
       }
     },
     "configValidationMode": "warn",
@@ -521,10 +521,10 @@
     },
     "layers": {},
     "isDashboardMonitoringPreconfigured": false,
-    "artifact": "D:\\Software Development\\Web Applicacation\\SPA\\vision-erp\\.serverless\\VisionERP.zip"
+    "artifact": "D:\\work\\Git\\vision-erp\\.serverless\\VisionERP.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/VisionERP/dev/1707569061144-2024-02-10T12:44:21.144Z",
+    "artifactDirectoryName": "serverless/VisionERP/dev/1713962508165-2024-04-24T12:41:48.165Z",
     "artifact": "VisionERP.zip"
   }
 }
