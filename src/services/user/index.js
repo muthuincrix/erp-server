@@ -177,6 +177,7 @@ module.exports = class User {
               return { status: "error", message: "Can't find your details" };
             });
         })
+        
         .catch((err) => {
           console.log(err);
           return { status: "error", message: "Can't save your information" };
