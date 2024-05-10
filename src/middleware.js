@@ -35,3 +35,19 @@ exports.sessionExpire = (req, res, next) => {
   next();
  }
 };
+
+exports.userIsLogin = (req,res) =>{
+try {
+ // if(!req.session) return res.json({status:"error",isLogin:false,message:"user is not logged in"})
+  const ref = req.header('Referer');
+  //if(!req.session.userId) return req.session.destroy()
+  // if(ref.split('/')[3] == '/setup' && !req.session.userId ) return res.json({status:"error",isLogin:false,message:"user is not logged in"})
+  // if( req.session.isLogin && !req.session.fill_the_details) return res.json({status:"success",isLogin:true,fill_the_details:true,message:"user is not fill the details"})
+  if(req.session.isLogin && !req.session.fill_the_details ) return res.json({status:"success",isLogin:true,fill_the_details:true,message:"user is logged in"})
+   if(req.session.isLogin ) return res.json({status:"success",isLogin:true,message:"user is logged in"})
+
+    return res.json({status:"error",isLogin:false,message:"user is not logged in"})
+} catch (error) {
+  res.json({ staus:'error',message:error.message})
+}
+}

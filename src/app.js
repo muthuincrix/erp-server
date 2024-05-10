@@ -13,7 +13,7 @@ const GenerateOtp = require("./utils/otpGenerator.js");
 const router = require("./router/index.js");
 const User = require("./services/user");
 const MailSender = require("./services/email/index.js");
-const {sessionExpire} = require("./middleware.js")
+const {sessionExpire,userIsLogin} = require("./middleware.js")
 const methodOverride = require("method-override");
 const Product = require("./services/product/index.js");
 const Customer = require("./services/customer/index.js");
@@ -21,7 +21,7 @@ const Vendor = require("./services/vendor/index.js");
 const argv = require('minimist')(process.argv.slice(2));
 
 module.exports = (config) => {
-  console.log(argv.url);;
+  
 
  const getConnection = connectDB({url:config.databaseURL,poolSize:config.poolSize});
 
@@ -80,10 +80,18 @@ module.exports = (config) => {
 
   // router
   app.get('/expire', (req,res) => {
-   
+
     res.send('expire')
   })
    app.use("/",sessionExpire,router({ services, passport,log }));
+
+   app.get('/user-isLogin',userIsLogin)
+
+   // logout 
+   app.get('/logout',(req, res) => {
+    req.session.destroy();
+    res.json({status:"success",message:'logged out successfully'})
+   })
   //app.use("/",router({ services, passport,log }));
   return app;
 };
