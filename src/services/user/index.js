@@ -107,6 +107,7 @@ module.exports = class User {
   async checkOTPForCreateUser({ otp, req }) {
     if (!req.session.numOfattempts) req.session.numOfattempts = 1;
     if (req.session.otp === otp && req.session.numOfattempts < process.env.OTP_ATTEMPT_LIMIT) {
+      console.log(req.session.email , req.session.name ,req.session.otp);
         if (req.session.email && req.session.name && req.session.otp) {
           const newUser = await user({
             email: req.session.email,
@@ -137,6 +138,7 @@ module.exports = class User {
     const getUser = await user.findOne({ email });
     if (getUser) return { status: "info", message: "user already exists" };
     const otp = await this.otp.generateOtp();
+   
     req.session.otp = otp;
     req.session.type = "userCreate"
     req.session.name = name;

@@ -25,7 +25,7 @@ const schema = mongoose.Schema(
     },
     GSTPin: {
       type: String,
-      required: true,
+      
     },
     addGST: {
       type: Boolean,
@@ -76,7 +76,7 @@ const schema = mongoose.Schema(
     ],
     logoUrl: {
       type: String,
-      required: true,
+   
     },
   },
   { timestamps: true, versionKey: false }
