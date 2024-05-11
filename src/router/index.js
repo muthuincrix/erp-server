@@ -8,5 +8,6 @@ module.exports = (props)=>{
     router.use('/product',ProductRouter(props));
     router.use('/customer',CustomerRouter(props))
     router.use('/vendor',VendorRouter(props))
+    
     return router
 }
