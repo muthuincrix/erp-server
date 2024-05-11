@@ -116,6 +116,8 @@ module.exports = class User {
           });
           if (newUser) {
             await newUser.save();
+            req.session.isLogin = true;
+            req.session.fill_the_details = false;
             req.session.userId = newUser._id
             return { status: "success", type:"create", message: "User create successfully" };
           } else return { status: "error", message: "User creation failed" };

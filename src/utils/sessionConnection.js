@@ -13,7 +13,7 @@ exports.sessionManagement = async (app, config) => {
   app.use(
     session({
       secret: config.secret,
-      resave: true,
+      resave: false,
       secure: true,
       httpOnly: true,
       saveUninitialized: false,
