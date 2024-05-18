@@ -22,6 +22,7 @@ module.exports = ({ passport, services, log }) => {
   router.post("/otp-verify", async (req, res) => {
     try {
      console.log(req.session);
+     console.log(req.path);
       const { otp } = req.body;
     
       if (otp && req.session.type == "userLogin")
