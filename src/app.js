@@ -32,8 +32,8 @@ module.exports = (config) => {
   app.use(
     cors(
       {
-      origin: 'http://erp-client-3.s3-website.ap-south-1.amazonaws.com',
-     // origin: 'http://localhost:3000', // Replace with your frontend domain
+      //origin: 'http://erp-client-3.s3-website.ap-south-1.amazonaws.com',
+      origin: 'http://localhost:3000', // Replace with your frontend domain
       credentials: true,
         optionsSuccessStatus: 200 
     }
