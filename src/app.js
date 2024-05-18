@@ -30,11 +30,13 @@ module.exports = (config) => {
 
   // middlewere connection
   app.use(
-    cors({
-      origin: 'https://d1ucsdf3cm5a5l.cloudfront.net',
-      //origin: 'http://localhost:3000', // Replace with your frontend domain
-      credentials: true,
-    })
+    cors(
+    //   {
+    //   origin: 'https://d1ucsdf3cm5a5l.cloudfront.net',
+    //   //origin: 'http://localhost:3000', // Replace with your frontend domain
+    //   credentials: true,
+    // }
+    )
   );
 
 
