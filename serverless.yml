@@ -42,8 +42,23 @@ functions:
   app:
     handler: handler.app
     events:
-     - httpApi: ANY /{proxy+}
-     - httpApi: ANY /
+      # - http:
+      #     path: /{proxy+}
+      #     method: any
+      #     private: true
+      #     cors:
+      #       origin: "*"
+      #       headers:
+      #         - Content-Type
+      #         - X-Amz-Date
+      #         - Authorization
+      #         - X-Api-Key
+      #         - X-Amz-Security-Token
+      #         - X-Amz-User-Agent
+      #         - X-Amzn-Trace-Id
+      #       allowCredentials: true
+      - httpApi: ANY /{proxy+}
+      - httpApi: ANY /
     environment:
       NODE_ENV: development
       MONGODB_DEV_URL: mongodb+srv://avinash97official:Crixin14db@cluster0.nqt2tsq.mongodb.net/development?retryWrites=true&w=majority

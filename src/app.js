@@ -29,7 +29,15 @@ module.exports = (config) => {
   const log = config.log()
 
   // middlewere connection
-  app.use(cors());
+  app.use(
+    cors({
+      origin: 'https://d1ucsdf3cm5a5l.cloudfront.net',
+      //origin: 'http://localhost:3000', // Replace with your frontend domain
+      credentials: true,
+    })
+  );
+
+
   app.use(compression());
   app.use(express.json());
   app.use(helmet());
@@ -47,15 +55,6 @@ module.exports = (config) => {
   app.use(passport.session());
   
   
-  // app.post(
-  //   "/login-verify",
-  //   passport.authenticate("local", {
-  //     successRedirect: "/user/login",
-  //     failureRedirect: "/user/failed",
-  //     failureFlash: true,
-  //   })
-  // );
-
   const otp = new GenerateOtp(5, true);
   const mailSender = new MailSender({
     host: config.host,
@@ -80,7 +79,10 @@ module.exports = (config) => {
 
   // router
   app.get('/expire', (req,res) => {
-
+   
+    if(!req.session.counters) req.session.counters = 1
+    else req.session.counters += 1
+console.log(req.session.counters)
     res.send('expire')
   })
    app.use("/",sessionExpire,router({ services, passport,log }));

@@ -176,7 +176,7 @@
                 "S3Bucket": {
                   "Ref": "ServerlessDeploymentBucket"
                 },
-                "S3Key": "serverless/VisionERP/dev/1713962508165-2024-04-24T12:41:48.165Z/VisionERP.zip"
+                "S3Key": "serverless/VisionERP/dev/1715962137220-2024-05-17T16:08:57.220Z/VisionERP.zip"
               },
               "Handler": "handler.app",
               "Runtime": "nodejs18.x",
@@ -208,37 +208,150 @@
               "AppLogGroup"
             ]
           },
-          "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0": {
+          "AppLambdaVersionzoL57jJwzTUkaZvwJLeRkNUaWxso3Kn6tzlbb3UPsA": {
             "Type": "AWS::Lambda::Version",
             "DeletionPolicy": "Retain",
             "Properties": {
               "FunctionName": {
                 "Ref": "AppLambdaFunction"
               },
-              "CodeSha256": "Bw1BzWgIVYK0yaTuq9lElLb3v5NClrsbocl8m4pqTLA="
+              "CodeSha256": "SzySQOL8Oe8EKk0UCiUVf0xADo/5dHZPNCqcUdbLtWw="
             }
           },
-          "HttpApi": {
-            "Type": "AWS::ApiGatewayV2::Api",
+          "ApiGatewayRestApi": {
+            "Type": "AWS::ApiGateway::RestApi",
             "Properties": {
               "Name": "dev-VisionERP",
-              "ProtocolType": "HTTP"
+              "EndpointConfiguration": {
+                "Types": [
+                  "EDGE"
+                ]
+              },
+              "Policy": ""
             }
           },
-          "HttpApiStage": {
-            "Type": "AWS::ApiGatewayV2::Stage",
+          "ApiGatewayResourceProxyVar": {
+            "Type": "AWS::ApiGateway::Resource",
             "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
+              "ParentId": {
+                "Fn::GetAtt": [
+                  "ApiGatewayRestApi",
+                  "RootResourceId"
+                ]
               },
-              "StageName": "$default",
-              "AutoDeploy": true,
-              "DefaultRouteSettings": {
-                "DetailedMetricsEnabled": false
+              "PathPart": "{proxy+}",
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
               }
             }
           },
-          "AppLambdaPermissionHttpApi": {
+          "ApiGatewayMethodProxyVarOptions": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "AuthorizationType": "NONE",
+              "HttpMethod": "OPTIONS",
+              "MethodResponses": [
+                {
+                  "StatusCode": "200",
+                  "ResponseParameters": {
+                    "method.response.header.Access-Control-Allow-Origin": true,
+                    "method.response.header.Access-Control-Allow-Headers": true,
+                    "method.response.header.Access-Control-Allow-Methods": true,
+                    "method.response.header.Access-Control-Allow-Credentials": true
+                  },
+                  "ResponseModels": {}
+                }
+              ],
+              "RequestParameters": {},
+              "Integration": {
+                "Type": "MOCK",
+                "RequestTemplates": {
+                  "application/json": "{statusCode:200}"
+                },
+                "ContentHandling": "CONVERT_TO_TEXT",
+                "IntegrationResponses": [
+                  {
+                    "StatusCode": "200",
+                    "ResponseParameters": {
+                      "method.response.header.Access-Control-Allow-Origin": "'*'",
+                      "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent,X-Amzn-Trace-Id'",
+                      "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,DELETE,GET,HEAD,PATCH,POST,PUT'",
+                      "method.response.header.Access-Control-Allow-Credentials": "'true'"
+                    },
+                    "ResponseTemplates": {
+                      "application/json": ""
+                    }
+                  }
+                ]
+              },
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              }
+            }
+          },
+          "ApiGatewayMethodProxyVarAny": {
+            "Type": "AWS::ApiGateway::Method",
+            "Properties": {
+              "HttpMethod": "ANY",
+              "RequestParameters": {},
+              "ResourceId": {
+                "Ref": "ApiGatewayResourceProxyVar"
+              },
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "ApiKeyRequired": true,
+              "AuthorizationType": "NONE",
+              "Integration": {
+                "IntegrationHttpMethod": "POST",
+                "Type": "AWS_PROXY",
+                "Uri": {
+                  "Fn::Join": [
+                    "",
+                    [
+                      "arn:",
+                      {
+                        "Ref": "AWS::Partition"
+                      },
+                      ":apigateway:",
+                      {
+                        "Ref": "AWS::Region"
+                      },
+                      ":lambda:path/2015-03-31/functions/",
+                      {
+                        "Fn::GetAtt": [
+                          "AppLambdaFunction",
+                          "Arn"
+                        ]
+                      },
+                      "/invocations"
+                    ]
+                  ]
+                }
+              },
+              "MethodResponses": []
+            },
+            "DependsOn": [
+              "AppLambdaPermissionApiGateway"
+            ]
+          },
+          "ApiGatewayDeployment1715962131523": {
+            "Type": "AWS::ApiGateway::Deployment",
+            "Properties": {
+              "RestApiId": {
+                "Ref": "ApiGatewayRestApi"
+              },
+              "StageName": "dev"
+            },
+            "DependsOn": [
+              "ApiGatewayMethodProxyVarOptions",
+              "ApiGatewayMethodProxyVarAny"
+            ]
+          },
+          "AppLambdaPermissionApiGateway": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
               "FunctionName": {
@@ -267,69 +380,13 @@
                     },
                     ":",
                     {
-                      "Ref": "HttpApi"
+                      "Ref": "ApiGatewayRestApi"
                     },
-                    "/*"
+                    "/*/*"
                   ]
                 ]
               }
             }
-          },
-          "HttpApiIntegrationApp": {
-            "Type": "AWS::ApiGatewayV2::Integration",
-            "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
-              },
-              "IntegrationType": "AWS_PROXY",
-              "IntegrationUri": {
-                "$ref": "$[\"service\"][\"provider\"][\"compiledCloudFormationTemplate\"][\"Resources\"][\"AppLambdaPermissionHttpApi\"][\"Properties\"][\"FunctionName\"]"
-              },
-              "PayloadFormatVersion": "2.0",
-              "TimeoutInMillis": 30000
-            }
-          },
-          "HttpApiRouteAnyProxyVar": {
-            "Type": "AWS::ApiGatewayV2::Route",
-            "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
-              },
-              "RouteKey": "ANY /{proxy+}",
-              "Target": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "integrations",
-                    {
-                      "Ref": "HttpApiIntegrationApp"
-                    }
-                  ]
-                ]
-              }
-            },
-            "DependsOn": "HttpApiIntegrationApp"
-          },
-          "HttpApiRouteAny": {
-            "Type": "AWS::ApiGatewayV2::Route",
-            "Properties": {
-              "ApiId": {
-                "Ref": "HttpApi"
-              },
-              "RouteKey": "ANY /",
-              "Target": {
-                "Fn::Join": [
-                  "/",
-                  [
-                    "integrations",
-                    {
-                      "Ref": "HttpApiIntegrationApp"
-                    }
-                  ]
-                ]
-              }
-            },
-            "DependsOn": "HttpApiIntegrationApp"
           }
         },
         "Outputs": {
@@ -344,30 +401,21 @@
           "AppLambdaFunctionQualifiedArn": {
             "Description": "Current Lambda function version",
             "Value": {
-              "Ref": "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0"
+              "Ref": "AppLambdaVersionzoL57jJwzTUkaZvwJLeRkNUaWxso3Kn6tzlbb3UPsA"
             },
             "Export": {
               "Name": "sls-VisionERP-dev-AppLambdaFunctionQualifiedArn"
             }
           },
-          "HttpApiId": {
-            "Description": "Id of the HTTP API",
-            "Value": {
-              "Ref": "HttpApi"
-            },
-            "Export": {
-              "Name": "sls-VisionERP-dev-HttpApiId"
-            }
-          },
-          "HttpApiUrl": {
-            "Description": "URL of the HTTP API",
+          "ServiceEndpoint": {
+            "Description": "URL of the service endpoint",
             "Value": {
               "Fn::Join": [
                 "",
                 [
                   "https://",
                   {
-                    "Ref": "HttpApi"
+                    "Ref": "ApiGatewayRestApi"
                   },
                   ".execute-api.",
                   {
@@ -376,12 +424,13 @@
                   ".",
                   {
                     "Ref": "AWS::URLSuffix"
-                  }
+                  },
+                  "/dev"
                 ]
               ]
             },
             "Export": {
-              "Name": "sls-VisionERP-dev-HttpApiUrl"
+              "Name": "sls-VisionERP-dev-ServiceEndpoint"
             }
           }
         }
@@ -476,14 +525,29 @@
         "handler": "handler.app",
         "events": [
           {
-            "httpApi": "ANY /{proxy+}",
-            "resolvedMethod": "ANY",
-            "resolvedPath": "/{proxy+}"
-          },
-          {
-            "httpApi": "ANY /",
-            "resolvedMethod": "ANY",
-            "resolvedPath": "/"
+            "http": {
+              "path": "{proxy+}",
+              "method": "any",
+              "private": true,
+              "cors": {
+                "origin": "*",
+                "methods": [
+                  "OPTIONS",
+                  "ANY"
+                ],
+                "headers": [
+                  "Content-Type",
+                  "X-Amz-Date",
+                  "Authorization",
+                  "X-Api-Key",
+                  "X-Amz-Security-Token",
+                  "X-Amz-User-Agent",
+                  "X-Amzn-Trace-Id"
+                ],
+                "allowCredentials": true
+              },
+              "integration": "AWS_PROXY"
+            }
           }
         ],
         "environment": {
@@ -504,7 +568,7 @@
         "timeout": 10,
         "runtime": "nodejs18.x",
         "vpc": {},
-        "versionLogicalId": "AppLambdaVersioneOaI0JUOm9SSBT2PfkXSQP0Pcs9chTgTmmzdNJHM0"
+        "versionLogicalId": "AppLambdaVersionzoL57jJwzTUkaZvwJLeRkNUaWxso3Kn6tzlbb3UPsA"
       }
     },
     "configValidationMode": "warn",
@@ -524,7 +588,7 @@
     "artifact": "D:\\work\\Git\\vision-erp\\.serverless\\VisionERP.zip"
   },
   "package": {
-    "artifactDirectoryName": "serverless/VisionERP/dev/1713962508165-2024-04-24T12:41:48.165Z",
+    "artifactDirectoryName": "serverless/VisionERP/dev/1715962137220-2024-05-17T16:08:57.220Z",
     "artifact": "VisionERP.zip"
   }
 }

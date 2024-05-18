@@ -86,8 +86,10 @@ module.exports = class User {
     });
   }
   async checkOTP({ otp, req }) {
+   
     if (!req.session.numOfattempts) req.session.numOfattempts = 1;
     if (req.session.otp === otp && req.session.numOfattempts < process.env.OTP_ATTEMPT_LIMIT) {
+      
        const getUser = await user.findOne({_id:req.session.userId})
        req.session.isLogin = true
        req.session.fill_the_details = getUser.orgList.length > 0

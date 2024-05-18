@@ -21,12 +21,13 @@ module.exports = ({ passport, services, log }) => {
 
   router.post("/otp-verify", async (req, res) => {
     try {
+     console.log(req.session);
       const { otp } = req.body;
+    
       if (otp && req.session.type == "userLogin")
         await services.user
           .checkOTP({ otp, req })
           .then((response) => {
-           
             return res.json(response);
           })
           .catch((error) => {
