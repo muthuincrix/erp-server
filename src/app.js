@@ -32,7 +32,8 @@ module.exports = (config) => {
   app.use(
     cors(
       {
-        origin:'https://d1ucsdf3cm5a5l.cloudfront.net',
+        origin:"https://incrix-erp.netlify.app"
+       // origin:'https://d1ucsdf3cm5a5l.cloudfront.net',
       //origin: 'http://erp-client-3.s3-website.ap-south-1.amazonaws.com',
        //origin: 'http://localhost:3000', // Replace with your frontend domain
       credentials: true,
