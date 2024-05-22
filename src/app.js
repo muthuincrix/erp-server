@@ -89,9 +89,9 @@ module.exports = (config) => {
 console.log(req.session.counters)
     res.send('expire')
   })
-   app.use("/",sessionExpire,router({ services, passport,log }));
+   app.use("/api/",sessionExpire,router({ services, passport,log }));
 
-   app.get('/user-isLogin',userIsLogin)
+   app.get('/api/user-isLogin',userIsLogin)
 
    // logout 
    app.get('/logout',(req, res) => {
