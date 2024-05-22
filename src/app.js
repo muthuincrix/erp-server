@@ -94,7 +94,7 @@ console.log(req.session.counters)
    app.get('/api/user-isLogin',userIsLogin)
 
    // logout 
-   app.get('/logout',(req, res) => {
+   app.get('/api/logout',(req, res) => {
     req.session.destroy();
     res.json({status:"success",message:'logged out successfully'})
    })
