@@ -32,8 +32,8 @@ module.exports = (config) => {
   app.use(
     cors(
       {
-        //origin:"https://erp-client-2-nd55.vercel.app",
-        origin:'https://d1ucsdf3cm5a5l.cloudfront.net',
+        origin:"https://d1dp27wvujqxte.cloudfront.net",
+       // origin:'https://d1ucsdf3cm5a5l.cloudfront.net',
       //origin: 'http://erp-client-3.s3-website.ap-south-1.amazonaws.com',
        //origin: 'http://localhost:3000', // Replace with your frontend domain
       credentials: true,
