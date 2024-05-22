@@ -82,7 +82,7 @@ module.exports = (config) => {
 
 
   // router
-  app.get('/expire', (req,res) => {
+  app.get('/api/expire', (req,res) => {
    
     if(!req.session.counters) req.session.counters = 1
     else req.session.counters += 1
